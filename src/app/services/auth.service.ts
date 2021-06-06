@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { User } from '../model/user';
-
+import { Stat } from '../model/loginResult';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
   constructor() { }
 
   addUser(user: User) {
@@ -20,27 +19,41 @@ export class AuthService {
     localStorage.setItem('Users', JSON.stringify(users))
   }
 
-  authUser(user: User){
+  
+
+  authUser(user: User): Stat{
     let userArray: User[] = [];
     if (localStorage.getItem('Users')) {
       userArray = JSON.parse((localStorage.getItem('Users')) as string);
     }
     if (userArray.find(u => u.username === user.username)) {
       if (userArray.find(u => u.username === user.username && u.password === user.password)) {
-          console.log("Login successful");
-          //TODO: dialog message
+
+          return Stat.LOGINSUCCESS;
       }
       else {
-          console.log("Wrong password");
-          //TODO: dialog message
+          return Stat.LOGINFAILED;
       }
     }
     else {
       this.addUser(user);
-      console.log("Registration successful");
-      //TODO: dialog message
+      return Stat.REGISTERED;
     }
 
   }
 
+  isLoggedIn() {
+    return localStorage.getItem('currentUser');
+  }
+
+  loginUser(user:User){
+    localStorage.setItem('currentUser',user.username)
+  }
+
+  logOutUser() {
+    localStorage.removeItem('currentUser');
+  }
+
 }
+
+
