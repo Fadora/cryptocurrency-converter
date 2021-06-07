@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit {
         this.sb.open("Login successful!", "", { duration: 1500 });
         break;
       case Stat.LOGINFAILED:
-        this.authService.logOutUser();
         this.sb.open("Wrong password!", "", { duration: 1500 });
         break;
       case Stat.REGISTERED:

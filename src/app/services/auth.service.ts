@@ -1,57 +1,44 @@
 import { Injectable } from '@angular/core';
 import { User } from '../model/user';
 import { Stat } from '../model/loginResult';
+import { StorageService } from './storage.service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor() { }
+  constructor(private storageService: StorageService) { }
 
-  addUser(user: User) {
-    let users: User[];
-    if (localStorage.getItem('Users')) {
-      users = JSON.parse((localStorage.getItem('Users')) as string);
-      users = [...users];
-      users.push(user);
-    } else {
-      users = [user];
-    }
-    localStorage.setItem('Users', JSON.stringify(users))
-  }
-
-  
-
-  authUser(user: User): Stat{
+  authUser(user: User): Stat {
     let userArray: User[] = [];
-    if (localStorage.getItem('Users')) {
-      userArray = JSON.parse((localStorage.getItem('Users')) as string);
+    if (this.storageService.usersExist()) {
+      userArray = this.storageService.getUsers();
     }
     if (userArray.find(u => u.username === user.username)) {
       if (userArray.find(u => u.username === user.username && u.password === user.password)) {
-
-          return Stat.LOGINSUCCESS;
+        return Stat.LOGINSUCCESS;
       }
       else {
-          return Stat.LOGINFAILED;
+        return Stat.LOGINFAILED;
       }
     }
     else {
-      this.addUser(user);
+      this.storageService.addUser(user);
       return Stat.REGISTERED;
     }
 
   }
 
   isLoggedIn() {
-    return localStorage.getItem('currentUser');
+    return this.storageService.isLoggedIn();
   }
 
-  loginUser(user:User){
-    localStorage.setItem('currentUser',user.username)
+  loginUser(user: User) {
+    this.storageService.setCurrentUser(user);
   }
 
   logOutUser() {
-    localStorage.removeItem('currentUser');
+    this.storageService.removeCurrentUser();
   }
 
 }
