@@ -1,0 +1,30 @@
+.spacer {
+    flex: 1;
+  }
+
+  .toolbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    background-color: rgba(58, 8, 58, 0.6);
+    color: white;
+    font-weight: 300;
+  }
+
+  .toolbar a{
+margin: 10px;
+  }
+
+  .clickable {
+      cursor: pointer;
+  }
+
+  .welcome-user{
+    font-size: larger; 
+    text-decoration: underline;
+}
+
