@@ -37,10 +37,21 @@ export class StorageService {
       localStorage.setItem(user.username, currency);
     }
     else {
-      let cryptoList: string = JSON.parse((localStorage.getItem(user.username)) as string);
-      cryptoList = cryptoList.concat(" " + currency);
+      let cryptoList: string = localStorage.getItem(user.username) as string;
+      cryptoList = cryptoList.concat(", " + currency);
       localStorage.setItem(user.username, cryptoList);
     }
+  }
+
+  setupLoggedInUserWithAsset(assetID: string) {
+    let user = localStorage.getItem('currentUser') as string;
+    let cryptoList: string = localStorage.getItem(user) as string;
+    if (cryptoList === "") {
+      cryptoList = assetID;
+    } else {
+      cryptoList = assetID.concat(", " + cryptoList);
+    }
+    localStorage.setItem(user, cryptoList);
   }
 
   setCurrentUser(user: User) {
@@ -54,4 +65,18 @@ export class StorageService {
   isLoggedIn() {
     return localStorage.getItem('currentUser');
   }
+
+  getCryptosForCurrentUser() {
+    let user = localStorage.getItem('currentUser');
+    return localStorage.getItem(user as string);
+  }
+
+  deleteCrypto(crypto: string) {
+    let user = localStorage.getItem("currentUser");
+    let cryptos: string[] = localStorage.getItem(user as string)?.split(',') as string[];
+    let idx = cryptos.indexOf(crypto);
+    cryptos.splice(idx, 1);
+    localStorage.setItem(user as string, cryptos.toString());
+  }
+
 }

@@ -1,0 +1,21 @@
+:host {
+  margin: 70px 0px;
+}
+
+.mainpage-style{
+  padding: 0.05px;
+  display: flex;
+  margin-top: 70px;
+}
+
+.side-list{
+  margin:0px 10px;
+  flex:1;
+  background-color: rgba(90, 7, 7, 0.308);
+  height: fit-content;
+  border-radius: 3%;
+}
+
+.tabs{
+  flex:4;
+}

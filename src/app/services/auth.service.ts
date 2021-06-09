@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { User } from '../model/user';
 import { Stat } from '../model/loginResult';
+import { User } from '../model/user';
 import { StorageService } from './storage.service';
 
 @Injectable({

@@ -1,0 +1,33 @@
+<div class="tab-content">
+
+    <div class="main-content">
+        <mat-card class="chart">
+            <mat-card-subtitle>Price in USD from last week (highest):</mat-card-subtitle>
+            <mat-card-content>
+                <app-chart-card [crypto]="crypto"></app-chart-card>
+            </mat-card-content>
+        </mat-card>
+
+        <div>
+        <mat-card class="converter-card">
+            <mat-card-subtitle>Convert between USD and {{crypto}}!</mat-card-subtitle>
+            <mat-card-content>
+                <div>
+                    <input mat-input type="number" placeholder="USD dollar" [(ngModel)]="usd" >
+                    <button mat-stroked-button color="primary" (click)="convertFromUSD(usd)" >Convert</button>
+                    <p>= {{cryptoValue}} {{crypto}}</p>
+                </div>
+        
+                <div>
+                    <input mat-input type="number" placeholder="{{crypto}}" [(ngModel)]="cry">
+                    <button mat-stroked-button  color="primary" (click)="convertFromCrypto(cry)" >Convert</button>
+                    <p>= {{usdValue}} USD</p>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <button class="deletebutton" mat-stroked-button matTooltip="Delete this crypto from your list" color="primary" (click)="deleteCrypto(crypto)">Delete</button>
+    </div>
+    </div>
+  
+</div>
