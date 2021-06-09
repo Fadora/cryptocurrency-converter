@@ -1,0 +1,33 @@
+<div class="mainpage-style" *ngIf=authService.isLoggedIn()>
+
+    <mat-list *ngIf="userHasCryptos()" class="side-list">
+        <mat-list-item *ngFor="let c of cryptos">
+            <h3 matLine> {{c}} </h3>
+            <p matLine>
+                <span> High: {{c}} </span>
+                <span> Low: {{c}} </span>
+            </p>
+        </mat-list-item>
+    </mat-list>
+
+
+    <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)" class="tabs"
+        mat-align-tabs="center" color="accent" backgroundColor="primary">
+        <div *ngIf="userHasCryptos()">
+            <mat-tab *ngFor="let c of cryptos;let index = index" [label]="c">
+                <app-tab-content [crypto]="c" (deleted)="deleteCrypto(index,$event)"></app-tab-content>
+            </mat-tab>
+        </div>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <mat-icon (click)="openDialog()">add</mat-icon>
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+
+
+
+
+</div>
+
+<div *ngIf="!authService.isLoggedIn()">You are not logged in!</div>

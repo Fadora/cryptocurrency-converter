@@ -1,0 +1,29 @@
+.main-content{
+display: flex;
+}
+.converter-card{
+flex:1;
+float:right;
+height: fit-content;
+}
+
+
+.chart{
+    flex:2;
+    float:left;
+    }
+    
+mat-card{
+    margin: 10px;
+}
+
+
+mat-card-content button{
+    margin-left:20px;
+}
+
+.deletebutton{
+    float: inline-start;
+margin-left: 30px;
+
+}

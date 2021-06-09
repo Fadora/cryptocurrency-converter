@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { User } from '../model/user';
 import { AuthService } from '../services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Stat } from '../model/loginResult';
+import { Router } from '@angular/router';
+import { User } from '../model/user';
 
 
 
@@ -18,8 +19,10 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   user: User = { username: "", password: "" };
 
-  constructor(private authService: AuthService,
-    private sb: MatSnackBar) { }
+  constructor(
+    private authService: AuthService,
+    private sb: MatSnackBar,
+    public router: Router) { }
 
 
   ngOnInit(): void {
@@ -30,22 +33,26 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    console.log(this.loginForm.value)
     let loginStat = this.authService.authUser(this.userData());
+    
     switch (loginStat) {
-      case Stat.LOGINSUCCESS:
-        this.authService.loginUser(this.userData());
-        this.sb.open("Login successful!", "", { duration: 1500 });
-        break;
-      case Stat.LOGINFAILED:
-        this.sb.open("Wrong password!", "", { duration: 1500 });
-        break;
-      case Stat.REGISTERED:
-        this.authService.loginUser(this.userData());
-        this.sb.open("Registration successful!", "", { duration: 1500 });
-        break;
-      default:
-        break;
+        case Stat.LOGINSUCCESS:
+            this.authService.loginUser(this.userData());
+            this.router.navigate(['/user/'+this.getCurrrentUser()]);
+            this.sb.open("Login successful!", "", { duration: 1500 });
+            break;
+
+        case Stat.LOGINFAILED:
+            this.sb.open("Wrong password!", "", { duration: 1500 });
+            break;
+
+        case Stat.REGISTERED:
+            this.authService.loginUser(this.userData());
+            this.router.navigate(['/user/'+this.getCurrrentUser()]);
+            this.sb.open("Registration successful!", "", { duration: 1500 });
+            break;
+        default:
+          break;
     }
   }
 
@@ -54,6 +61,10 @@ export class LoginComponent implements OnInit {
       username: (this.loginForm.get('username') as FormControl).value,
       password: (this.loginForm.get('password') as FormControl).value
     }
+  }
+
+  getCurrrentUser(){
+    return this.authService.isLoggedIn();
   }
 
 

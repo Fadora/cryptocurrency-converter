@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Add a new crypto to your list!</h2>
+
+<mat-dialog-content>
+    <mat-form-field appearance="fill">
+        <mat-label>Select crypto</mat-label>
+        <mat-select [(ngModel)]="selectedCrypto">
+            <mat-option *ngFor="let c of cryptos" [value]="c.asset_id">
+                {{c.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+<br>
+<div class="buttons">  
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-stroked-button (click)="add()">Add</button>
+</div>
+
+</mat-dialog-content>
